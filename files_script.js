@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
             content: generateRandomString(180)
         },
         '档案三': {
-            title: TRYTOCUNNECT(35),
-            content: generateRandomString(220)
+            title: 'TRYTOCUNNECT'(35),
+            content: 'We are so short of manpower now that we can't fight against them. We posted a video on the social platform. I don't know if they can find it and connect... I hope so.'(220)
         }
     };
 
@@ -128,3 +128,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // 注意：移除了 flicker 相关的代码
 
 });
+
