@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>paytheprice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: none !important;
+        }
+
+        body {
+            background-color: black;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            animation: flicker 0.3s infinite alternate;
+        }
+
+        #terminal {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            position: relative;
+            z-index: 10;
+            transition: none !important;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
+
+        #prompt {
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+
+        .prompt-symbol {
+            margin-right: 8px;
+        }
+
+        #user-input {
+            background: transparent;
+            border: none;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: inherit;
+            outline: none;
+            flex-grow: 1;
+            caret-color: transparent;
+        }
+
+        .cursor {
+            color: #0f0;
+            margin-left: 2px;
+            animation: cursor-blink 1s infinite steps(1);
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.85; }
+        }
+
+        @keyframes random-glitch {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(0, 0); }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            z-index: 5;
+            transition: none !important;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        @keyframes severe-random-glitch {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <div id="output"></div>
+        <div id="prompt">
+            <span class="prompt-symbol">/</span>
+            <input type="text" id="user-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <span class="cursor">|</span>
+        </div>
+    </div>
+    <script>
+        const userInput = document.getElementById('user-input');
+        const outputDiv = document.getElementById('output');
+        const terminal = document.getElementById('terminal');
+
+        // 页面加载后自动聚焦
+        window.addEventListener('load', () => {
+            userInput.focus();
+        });
+
+        userInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const command = userInput.value.trim();
+
+                // 检查命令是否为 "paytheprice"
+                if (command.toLowerCase() === 'paytheprice') {
+                    // 添加确认信息到输出
+                    const confirmElement = document.createElement('div');
+                    confirmElement.textContent = '/' + command;
+                    confirmElement.style.whiteSpace = 'pre-wrap';
+                    outputDiv.appendChild(confirmElement);
+                    
+                    // 滚动到底部
+                    terminal.scrollTop = terminal.scrollHeight;
+
+                    // 清空输入框
+                    userInput.value = '';
+
+                    // 延迟一小段时间后跳转，给用户一个视觉反馈
+                    setTimeout(() => {
+                        window.location.href = 'files.html';
+                    }, 300);
+
+                } else {
+                    // 如果不是特殊命令，则按原逻辑处理
+                    const commandElement = document.createElement('div');
+                    commandElement.textContent = '/' + command;
+                    commandElement.style.whiteSpace = 'pre-wrap';
+                    outputDiv.appendChild(commandElement);
+
+                    terminal.scrollTop = terminal.scrollHeight;
+                    userInput.value = '';
+                    userInput.focus();
+                }
+            }
+        });
+
+        // --- 故障效果控制 ---
+        function getRandomOffset(maxOffset) {
+            return (Math.random() - 0.5) * 2 * maxOffset;
+        }
+
+        function applyTerminalGlitch() {
+            const maxOffset = 15;
+            const x = getRandomOffset(maxOffset);
+            const y = getRandomOffset(maxOffset);
+            terminal.style.transform = `translate(${x}px, ${y}px)`;
+            setTimeout(() => {
+                terminal.style.transform = 'translate(0, 0)';
+            }, 50);
+        }
+
+        function applySevereGlitch() {
+            const maxOffset = 25;
+            const x = getRandomOffset(maxOffset);
+            const y = getRandomOffset(maxOffset);
+            const styleId = 'dynamic-glitch-style';
+            let styleElement = document.getElementById(styleId);
+            if (!styleElement) {
+                styleElement = document.createElement('style');
+                styleElement.id = styleId;
+                document.head.appendChild(styleElement);
+            }
+            styleElement.textContent = `
+                body.glitch-active::before {
+                    transform: translate(${x}px, ${y}px) !important;
+                }
+            `;
+            document.body.classList.add('glitch-active');
+            setTimeout(() => {
+                document.body.classList.remove('glitch-active');
+                if (styleElement) {
+                    styleElement.textContent = '';
+                }
+            }, 60);
+        }
+
+        setInterval(() => {
+            if (Math.random() > 0.3) {
+                applyTerminalGlitch();
+            }
+            if (Math.random() > 0.5) {
+                applySevereGlitch();
+            }
+        }, 1500);
+
+        let flickerInterval;
+        function startFlicker() {
+            if (flickerInterval) clearInterval(flickerInterval);
+            flickerInterval = setInterval(() => {
+                const opacity = 0.7 + Math.random() * 0.3;
+                document.body.style.opacity = opacity;
+                const flickerDuration = 50 + Math.random() * 100;
+                setTimeout(() => {
+                    document.body.style.opacity = '';
+                }, flickerDuration);
+            }, 300 + Math.random() * 400);
+        }
+
+        startFlicker();
+    </script>
+</body>
+</html>
