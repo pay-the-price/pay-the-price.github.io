@@ -17,15 +17,15 @@
     // 档案数据 (使用随机字符串)
     const fileData = {
         '档案一': {
-            title: generateRandomString(30),
-            content: generateRandomString(200)
+            title: 'if you see',
+            content: `Finally, someone came in... Listen, we need you to help us do something! File 2 has been encrypted. Please help me if possible...`
         },
         '档案二': {
             title: generateRandomString(25),
             content: generateRandomString(180)
         },
         '档案三': {
-            title: 'TRYTOCUNNECT',
+            title: 'TRY TO CUNNECT',
             content: `We are so short of manpower now that we can't fight against them. We posted a video on the social platform. I don't know if they can find it and connect... I hope so.`
         }
     };
@@ -128,6 +128,7 @@
     // 注意：移除了 flicker 相关的代码
 
 });
+
 
 
 
