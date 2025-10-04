@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+ ·document.addEventListener('DOMContentLoaded', function() {
     const fileList = document.getElementById('file-list');
     const contentTitle = document.getElementById('content-title');
     const contentBody = document.getElementById('content-body');
@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 注意：移除了 flicker 相关的代码
 
 });
+
 
 
 
