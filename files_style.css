@@ -1,0 +1,148 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: none !important;
+}
+
+body {
+    background-color: black;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    /* 移除闪烁动画 */
+    /* animation: flicker 0.3s infinite alternate; */
+}
+
+/* ====== 故障效果层 (保留，用于JS控制) ====== */
+.glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    transition: none !important;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    z-index: 4;
+    transition: none !important;
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+/* ====== 页面布局 ====== */
+#container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 85vh;
+    border: 1px solid #0f0;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    position: relative;
+    z-index: 10;
+    animation: container-pop 0.3s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+/* ====== 侧边栏 ====== */
+#sidebar {
+    width: 25%;
+    min-width: 200px;
+    background-color: rgba(0, 30, 0, 0.7);
+    padding: 20px;
+    border-right: 1px solid #0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #0f0;
+    padding-bottom: 10px;
+}
+
+#file-list {
+    list-style: none;
+    flex-grow: 1;
+}
+
+#file-list li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #0a0;
+    transition: background-color 0.2s ease;
+}
+
+#file-list li:hover {
+    background-color: rgba(0, 60, 0, 0.5);
+}
+
+#file-list li.active {
+    background-color: rgba(0, 100, 0, 0.5);
+    color: #fff;
+    font-weight: bold;
+}
+
+/* ====== 内容区 ====== */
+#content {
+    width: 75%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: rgba(0, 10, 0, 0.5);
+}
+
+#content h3 {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #0f0;
+    padding-bottom: 5px;
+}
+
+#content-body {
+    /* 可以添加一些默认样式或加载动画 */
+}
+
+/* ====== 动画定义 ====== */
+
+/* 移除闪烁动画定义 */
+
+/* 容器淡入弹出动画 */
+@keyframes container-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 为内容区域添加淡入动画 */
+@keyframes content-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 为列表项添加选中动画 */
+@keyframes item-highlight {
+    0% { box-shadow: 0 0 5px #0f0; }
+    100% { box-shadow: 0 0 15px #0f0; }
+}
